@@ -14,228 +14,186 @@ class _WorkoutHomePageState extends State<WorkoutHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.all(10),
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Text(
-                            'Just Do It',
-                            style: Theme.of(context).textTheme.headlineSmall,
-                          ),
-                          Text(
-                            '간단하다. 흔들리면 그것은 지방이다.',
-                            style: Theme.of(context).textTheme.titleSmall,
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      width: 80,
-                      height: 80,
-                      margin: EdgeInsets.only(left: 18),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          width: 4,
-                          color: Colors.orange,
-                        ),
-                        shape: BoxShape.circle,
-                        image:
-                            DecorationImage(image: AssetImage('assets/me.jpg')),
-                      ),
-                    ),
-                  ],
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    children: [
+                      Text('Just Do It'),
+                      Text('간단하다. 흔들리면 그것은 지방이다.'),
+                    ],
+                  ),
                 ),
-              ),
-              Expanded(
-                flex: 6,
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: DashboardCard(
-                        icon: Icon(
-                          Icons.fitness_center,
-                          size: 33,
-                          color: Colors.orange,
-                        ),
-                        title: Text(
-                          'Monthly',
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                        info: Text(
-                          '12회',
-                          style: TextStyle(
-                              fontSize: 33, fontWeight: FontWeight.bold),
-                        ),
+                Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(image: AssetImage('assets/me.jpg')),
+                  ),
+                ),
+              ],
+            ),
+            Expanded(
+              flex: 6,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: DashboardCard(
+                      icon: Icon(
+                        Icons.fitness_center,
+                        size: 33,
+                        color: Colors.orange,
+                      ),
+                      title: Text(
+                        'Monthly',
+                        style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
+                      ),
+                      info: Text(
+                        '12회',
+                        style: TextStyle(fontSize: 33, fontWeight: FontWeight.bold),
                       ),
                     ),
-                    Expanded(
-                      flex: 4,
-                      child: Column(
-                        children: [
-                          Expanded(
-                            child: DashboardCard(
-                              icon: Icon(
-                                Icons.update,
-                                size: 33,
-                                color: Colors.orange,
-                              ),
-                              title: Text(
-                                '오늘운동시간',
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              ),
-                              info: Text(
-                                '10분',
-                                style: TextStyle(
-                                    fontSize: 33, fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: DashboardCard(
-                              icon: Icon(
-                                Icons.fitness_center,
-                                size: 33,
-                                color: Colors.orange,
-                              ),
-                              title: Text(
-                                '소모칼로리',
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              ),
-                              info: Text(
-                                '100Kcal',
-                                style: TextStyle(
-                                    fontSize: 33, fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Expanded(
-                flex: 4,
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
+                  ),
+                  Expanded(
+                    child: Column(
                       children: [
-                        SizedBox(
-                          width: 250,
+                        Expanded(
                           child: DashboardCard(
                             icon: Icon(
-                              Icons.run_circle_outlined,
+                              Icons.update,
                               size: 33,
-                              color: Colors.white,
+                              color: Colors.orange,
                             ),
-                            backgroundColor: Colors.orange,
                             title: Text(
-                              '그룹1',
-                              style: TextStyle(
-                                  fontSize: 23,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
+                              '오늘운동시간',
+                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                             ),
-                            info: Row(
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        '아침을 여는 5가지 운동 프로그램',
-                                        style: TextStyle(
-                                            fontSize: 20, color: Colors.white),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Expanded(
-                                    child: Image.asset('assets/sample1.png'))
-                              ],
+                            info: Text(
+                              '10분',
+                              style: TextStyle(fontSize: 33, fontWeight: FontWeight.bold),
                             ),
                           ),
                         ),
-                        SizedBox(
-                          width: 250,
+                        Expanded(
                           child: DashboardCard(
                             icon: Icon(
-                              Icons.rowing_outlined,
+                              Icons.fitness_center,
                               size: 33,
-                              color: Colors.white,
+                              color: Colors.orange,
                             ),
-                            backgroundColor: Colors.teal,
                             title: Text(
-                              '그룹2',
+                              '소모칼로리',
                               style: TextStyle(
-                                  fontSize: 23,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                            info: Row(
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        '근력을 키우는 7가지 프로그램',
-                                        style: TextStyle(
-                                            fontSize: 20, color: Colors.white),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Expanded(
-                                    child: Image.asset('assets/sample2.png'))
-                              ],
+                            info: Text(
+                              '100Kcal',
+                              style: TextStyle(fontSize: 33, fontWeight: FontWeight.bold),
                             ),
                           ),
                         ),
                       ],
                     ),
-                  ),
+                  )
+                ],
+              ),
+            ),
+            Expanded(
+              flex: 4,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    SizedBox(
+                      child: DashboardCard(
+                        icon: Icon(
+                          Icons.run_circle_outlined,
+                          size: 33,
+                          color: Colors.white,
+                        ),
+                        title: Text(
+                          '그룹1',
+                          style: TextStyle(
+                            fontSize: 23,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        info: Text(
+                          '아침을 여는 5가지 운동 프로그램',
+                          style: TextStyle(
+                            fontSize: 23,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        backgroundColor: Colors.orange,
+                      ),
+                      width: 250,
+                    ),
+                    SizedBox(
+                      child: DashboardCard(
+                        icon: Icon(
+                          Icons.rowing_outlined,
+                          size: 33,
+                          color: Colors.white,
+                        ),
+                        title: Text(
+                          '그룹2',
+                          style: TextStyle(
+                            fontSize: 23,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        info: Text(
+                          '근력을 키우는 7가지 프로그램',
+                          style: TextStyle(
+                            fontSize: 23,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                        backgroundColor: Colors.teal,
+                      ),
+                      width: 250,
+                    ),
+                  ],
                 ),
               ),
-              Expanded(
-                flex: 3,
-                child: DashboardCard(
-                  icon: Icon(
-                    Icons.list,
-                    size: 33,
+            ),
+            Expanded(
+              flex: 3,
+              child: DashboardCard(
+                icon: Icon(
+                  Icons.list,
+                  size: 33,
+                  color: Colors.orange,
+                ),
+                title: Text(
+                  '운동 이어서 하기',
+                  style: TextStyle(
+                    fontSize: 23,
+                    fontWeight: FontWeight.bold,
                     color: Colors.orange,
                   ),
-                  backgroundColor: Colors.black87,
-                  title: Text(
-                    '운동 이어서 하기',
-                    style: TextStyle(
-                        fontSize: 23,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.orange),
-                  ),
-                  info: Text(
-                    '당신의 몸은 해 낼 수 있다. 당신의 마음만 설득하면 된다.',
-                    style: TextStyle(fontSize: 23, color: Colors.white),
-                  ),
                 ),
+                info: Text(
+                  '당신의 몸은 해 낼 수 있다. 당신의 마음만 설득하면 된다.',
+                  style: TextStyle(fontSize: 23, color: Colors.white),
+                ),
+                backgroundColor: Colors.black87,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
+

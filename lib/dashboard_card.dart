@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 class DashboardCard extends StatelessWidget {
   Icon icon;
   Text title;
-  Widget info;
+  Text info;
   Color? backgroundColor;
-  DashboardCard(
-      {super.key,
-      required this.icon,
-      required this.title,
-      required this.info,
-      this.backgroundColor});
+  DashboardCard({
+    super.key,
+    required this.icon,
+    required this.title,
+    required this.info,
+    this.backgroundColor
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class DashboardCard extends StatelessWidget {
       padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
-        color: backgroundColor ?? Colors.grey.shade300,
+        color: backgroundColor??Colors.grey.shade300,
       ),
       child: Column(
         children: [
@@ -35,10 +36,13 @@ class DashboardCard extends StatelessWidget {
             ],
           ),
           Expanded(
-            child: Center(child: info),
+            child: Center(
+                child: info
+            ),
           ),
         ],
       ),
     );
   }
 }
+

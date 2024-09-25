@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
+
 import 'workout.dart';
 
 class WorkoutGuidePage extends StatefulWidget {
@@ -14,62 +15,61 @@ class _WorkoutGuidePageState extends State<WorkoutGuidePage> {
     Workout(
         name: '스쿼트',
         minutes: 30,
-        imageName: 'squat.jpeg',
+        imageName: 'squat.gif',
         audioName: 'squat.mp3',
         kcal: 200),
     Workout(
         name: '사이드런지',
         minutes: 20,
-        imageName: 'side_lunge.jpeg',
+        imageName: 'side_lunge.gif',
         audioName: 'side_lunge.mp3',
         kcal: 100),
     Workout(
         name: '푸쉬업',
         minutes: 15,
-        imageName: 'pushup.jpeg',
+        imageName: 'pushup.gif',
         audioName: 'pushup.mp3',
         kcal: 100),
     Workout(
         name: '마운틴클림버',
         minutes: 15,
-        imageName: 'mountain_climber.jpeg',
+        imageName: 'mountain_climber.gif',
         audioName: 'mountain_climber.mp3',
         kcal: 50),
     Workout(
         name: '런지',
         minutes: 20,
-        imageName: 'lunge.jpeg',
+        imageName: 'lunge.gif',
         audioName: 'lunge.mp3',
         kcal: 100),
     Workout(
         name: '덤벨컬',
         minutes: 40,
-        imageName: 'dumbell_curl.jpeg',
+        imageName: 'dumbell_curl.gif',
         audioName: 'dumbell_curl.mp3',
         kcal: 200),
     Workout(
         name: '덩키킥',
         minutes: 30,
-        imageName: 'donkey_kick.jpeg',
+        imageName: 'donkey_kick.gif',
         audioName: 'donkey_kick.mp3',
         kcal: 50),
     Workout(
         name: '친업',
         minutes: 25,
-        imageName: 'chinup.jpeg',
+        imageName: 'chinup.gif',
         audioName: 'chinup.mp3',
         kcal: 300),
     Workout(
         name: '벤치프레스',
         minutes: 1,
-        imageName: 'benchpress.jpeg',
+        imageName: 'benchpress.gif',
         audioName: 'benchpress.mp3',
         kcal: 250),
   ];
   final player = AudioPlayer();
   int workoutsIndex = 0;
   late Workout currentWorkout;
-
   @override
   void initState() {
     super.initState();
@@ -90,9 +90,8 @@ class _WorkoutGuidePageState extends State<WorkoutGuidePage> {
     } else {
       return IconButton(
         onPressed: () async {
-          await player.stop();
+          await player.play(AssetSource('${currentWorkout.audioName}'));
           setState(() {});
-          player.play(AssetSource('${currentWorkout.audioName}'));
         },
         icon: Icon(Icons.play_circle_fill),
         iconSize: 70,
@@ -101,6 +100,7 @@ class _WorkoutGuidePageState extends State<WorkoutGuidePage> {
     }
   }
 
+  ///다음 운동으로 이동
   void nextWorkout() {
     if (workoutsIndex < workouts.length - 1) {
       workoutsIndex++;
@@ -110,6 +110,7 @@ class _WorkoutGuidePageState extends State<WorkoutGuidePage> {
     currentWorkout = workouts[workoutsIndex];
   }
 
+  ///이전 운동으로 이동
   void prevWorkout() {
     if (workoutsIndex > 0) {
       workoutsIndex--;
@@ -117,6 +118,12 @@ class _WorkoutGuidePageState extends State<WorkoutGuidePage> {
       workoutsIndex = workouts.length - 1;
     }
     currentWorkout = workouts[workoutsIndex];
+  }
+
+  @override
+  void dispose() {
+    player.dispose();
+    super.dispose();
   }
 
   @override
@@ -129,7 +136,7 @@ class _WorkoutGuidePageState extends State<WorkoutGuidePage> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Text(
-            '스쿼트',
+            '${currentWorkout.name}',
             style: TextStyle(fontSize: 35),
           ),
           Row(
@@ -160,18 +167,10 @@ class _WorkoutGuidePageState extends State<WorkoutGuidePage> {
             ],
           ),
           Text(
-            '${currentWorkout.minutes}',
+            '${currentWorkout.minutes}분',
             style: TextStyle(fontSize: 35, color: Colors.blue),
           ),
           getIconButton()
-          // IconButton(
-          //   onPressed: () {
-          //     player.play(AssetSource('squat.mp3'));
-          //   },
-          //   icon: Icon(Icons.play_circle_fill),
-          //   iconSize: 70,
-          //   color: Colors.deepOrange,
-          // )
         ],
       ),
     );

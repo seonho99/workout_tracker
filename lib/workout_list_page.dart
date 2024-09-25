@@ -8,55 +8,55 @@ class WorkoutListPage extends StatelessWidget {
     Workout(
         name: '스쿼트',
         minutes: 30,
-        imageName: 'squat.jpeg',
+        imageName: 'squat.gif',
         audioName: 'squat.mp3',
         kcal: 200),
     Workout(
         name: '사이드런지',
         minutes: 20,
-        imageName: 'side_lunge.jpeg',
+        imageName: 'side_lunge.gif',
         audioName: 'side_lunge.mp3',
         kcal: 100),
     Workout(
         name: '푸쉬업',
         minutes: 15,
-        imageName: 'pushup.jpeg',
+        imageName: 'pushup.gif',
         audioName: 'pushup.mp3',
         kcal: 100),
     Workout(
         name: '마운틴클림버',
         minutes: 15,
-        imageName: 'mountain_climber.jpeg',
+        imageName: 'mountain_climber.gif',
         audioName: 'mountain_climber.mp3',
         kcal: 50),
     Workout(
         name: '런지',
         minutes: 20,
-        imageName: 'lunge.jpeg',
+        imageName: 'lunge.gif',
         audioName: 'lunge.mp3',
         kcal: 100),
     Workout(
         name: '덤벨컬',
         minutes: 40,
-        imageName: 'dumbell_curl.jpeg',
+        imageName: 'dumbell_curl.gif',
         audioName: 'dumbell_curl.mp3',
         kcal: 200),
     Workout(
         name: '덩키킥',
         minutes: 30,
-        imageName: 'donkey_kick.jpeg',
+        imageName: 'donkey_kick.gif',
         audioName: 'donkey_kick.mp3',
         kcal: 50),
     Workout(
         name: '친업',
         minutes: 25,
-        imageName: 'chinup.jpeg',
+        imageName: 'chinup.gif',
         audioName: 'chinup.mp3',
         kcal: 300),
     Workout(
         name: '벤치프레스',
         minutes: 1,
-        imageName: 'benchpress.jpeg',
+        imageName: 'benchpress.gif',
         audioName: 'benchpress.mp3',
         kcal: 250),
   ];
@@ -69,7 +69,9 @@ class WorkoutListPage extends StatelessWidget {
       var minutes = workouts[i].minutes;
       workoutListRow.add(
         GestureDetector(
-          onTap: () {},
+          onTap: () {
+            //route code here
+          },
           child: Row(
             children: [
               Container(
@@ -111,3 +113,4 @@ class WorkoutListPage extends StatelessWidget {
     );
   }
 }
+
