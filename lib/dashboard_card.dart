@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 
 class DashboardCard extends StatelessWidget {
-  Icon icon;
-  Text title;
-  Text info;
-  Color? backgroundColor;
+  final Icon icon;
+  final Text title;
+  final Widget info;
+  final Color? backgroundColor;
+
   DashboardCard({
     super.key,
     required this.icon,
     required this.title,
     required this.info,
-    this.backgroundColor
+    this.backgroundColor,
   });
 
   @override
@@ -20,7 +21,7 @@ class DashboardCard extends StatelessWidget {
       padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
-        color: backgroundColor??Colors.grey.shade300,
+        color: backgroundColor ?? Colors.grey.shade300,
       ),
       child: Column(
         children: [
@@ -36,13 +37,10 @@ class DashboardCard extends StatelessWidget {
             ],
           ),
           Expanded(
-            child: Center(
-                child: info
-            ),
+            child: Center(child: info), // info를 그대로 사용
           ),
         ],
       ),
     );
   }
 }
-

@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
-
+import 'package:flutter/material.dart';
 import 'workout.dart';
 
 class WorkoutGuidePage extends StatefulWidget {
-  WorkoutGuidePage({super.key});
+  const WorkoutGuidePage({super.key});
 
   @override
   State<WorkoutGuidePage> createState() => _WorkoutGuidePageState();
@@ -62,19 +61,22 @@ class _WorkoutGuidePageState extends State<WorkoutGuidePage> {
         kcal: 300),
     Workout(
         name: '벤치프레스',
-        minutes: 1,
+        minutes: 10,
         imageName: 'benchpress.jpeg',
         audioName: 'benchpress.mp3',
         kcal: 250),
   ];
+
   final player = AudioPlayer();
-  int workoutsIndex = 0;
+
   late Workout currentWorkout;
+  int workoutsIndex=0;
   @override
   void initState() {
     super.initState();
-    currentWorkout = workouts[workoutsIndex];
+    currentWorkout=workouts[workoutsIndex];
   }
+
 
   IconButton getIconButton() {
     if (player.state == PlayerState.playing) {
@@ -100,24 +102,22 @@ class _WorkoutGuidePageState extends State<WorkoutGuidePage> {
     }
   }
 
-  ///다음 운동으로 이동
-  void nextWorkout() {
-    if (workoutsIndex < workouts.length - 1) {
+  void nextWorkout(){
+    if(workoutsIndex<workouts.length-1){
       workoutsIndex++;
-    } else {
-      workoutsIndex = 0;
+    }else{
+      workoutsIndex=0;
     }
-    currentWorkout = workouts[workoutsIndex];
+    currentWorkout=workouts[workoutsIndex];
   }
 
-  ///이전 운동으로 이동
-  void prevWorkout() {
-    if (workoutsIndex > 0) {
+  void prevWorkout(){
+    if(workoutsIndex>0){
       workoutsIndex--;
-    } else {
-      workoutsIndex = workouts.length - 1;
+    }else{
+      workoutsIndex=workouts.length-1;
     }
-    currentWorkout = workouts[workoutsIndex];
+    currentWorkout=workouts[workoutsIndex];
   }
 
   @override
@@ -142,35 +142,35 @@ class _WorkoutGuidePageState extends State<WorkoutGuidePage> {
           Row(
             children: [
               IconButton(
-                onPressed: () async {
-                  await player.stop();
-                  setState(() {
-                    prevWorkout();
-                  });
-                },
-                icon: Icon(Icons.arrow_back_ios),
-                iconSize: 70,
-              ),
+                  onPressed: () async {
+                    await player.stop();
+                    setState(() {
+                      nextWorkout();
+                    });
+                  },
+                  icon: Icon(Icons.arrow_back_ios),
+                  iconSize: 70),
               Expanded(
-                child: Image.asset('assets/${currentWorkout.imageName}'),
+                child: Image(
+                  image: AssetImage('assets/${currentWorkout.imageName}'),
+                ),
               ),
               IconButton(
-                onPressed: () async {
-                  await player.stop();
-                  setState(() {
-                    nextWorkout();
-                  });
-                },
-                icon: Icon(Icons.arrow_forward_ios),
-                iconSize: 70,
-              )
+                  onPressed: () async {
+                    await player.stop();
+                    setState(() {
+                      prevWorkout();
+                    });
+                  },
+                  icon: Icon(Icons.arrow_forward_ios),
+                  iconSize: 70),
             ],
           ),
           Text(
-            '${currentWorkout.minutes}분',
+            '${currentWorkout.minutes}',
             style: TextStyle(fontSize: 35, color: Colors.blue),
           ),
-          getIconButton()
+          getIconButton(),
         ],
       ),
     );
