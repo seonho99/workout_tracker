@@ -4,6 +4,8 @@ import 'package:workout_tracker/workout_guide_page.dart';
 import 'package:workout_tracker/workout_home_page.dart';
 import 'package:workout_tracker/workout_list_page.dart';
 
+import 'my_router.dart';
+
 void main(){
   runApp(const MyApp());
 }
@@ -13,9 +15,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Workout Tracker',
-      home: WorkoutHomePage(),
+      routerConfig: router,
+      // home: WorkoutHomePage(),
     );
   }
 }

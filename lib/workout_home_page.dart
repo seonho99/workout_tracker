@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:workout_tracker/landing_page.dart';
+import 'package:workout_tracker/workout_manager.dart';
 import 'workout.dart';
 import 'dashboard_card.dart';
 
@@ -138,35 +141,43 @@ class _WorkoutHomePageState extends State<WorkoutHomePage> {
                       children: [
                         SizedBox(
                           width: 250,
-                          child: DashboardCard(
-                            icon: Icon(
-                              Icons.run_circle_outlined,
-                              size: 33,
-                              color: Colors.white,
-                            ),
-                            backgroundColor: Colors.orange,
-                            title: Text(
-                              '그룹1',
-                              style: TextStyle(
-                                fontSize: 23,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,),
-                            ),
-                            info: Row(
-                              children: [
-                                Expanded(
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          '아침을 여는 5가지 운동 프로그램',
-                                          style: TextStyle(
-                                              fontSize: 23, color: Colors.white),
-                                        ),
-                                      ],
-                                    )),
-                                Expanded(
-                                  child: Image.asset('assets/sample1.png'),),
-                              ],
+                          child: GestureDetector(
+                            onTap: (){
+                              context.go('/workout_home/workout_list');
+                            },
+                            child: DashboardCard(
+                              icon: Icon(
+                                Icons.run_circle_outlined,
+                                size: 33,
+                                color: Colors.white,
+                              ),
+                              backgroundColor: Colors.orange,
+                              customOnTap: (){
+                                context.go('/workout_home/workout_list/0');
+                              },
+                              title: Text(
+                                '그룹1',
+                                style: TextStyle(
+                                  fontSize: 23,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,),
+                              ),
+                              info: Row(
+                                children: [
+                                  Expanded(
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                WorkoutManager.workoutGroups[0].groupDescription,
+                                            style: TextStyle(
+                                                fontSize: 23, color: Colors.white),
+                                          ),
+                                        ],
+                                      )),
+                                  Expanded(
+                                    child: Image.asset('assets/sample1.png'),),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -179,8 +190,11 @@ class _WorkoutHomePageState extends State<WorkoutHomePage> {
                               color: Colors.white,
                             ),
                             backgroundColor: Colors.teal,
+                            customOnTap: (){
+                              context.go('/workout_home/workout_list/1');
+                            },
                             title: Text(
-                              '그룹2',
+                              WorkoutManager.workoutGroups[1].groupDescription,
                               style: TextStyle(
                                 fontSize: 23,
                                 fontWeight: FontWeight.bold,
@@ -219,6 +233,9 @@ class _WorkoutHomePageState extends State<WorkoutHomePage> {
                     color: Colors.orange,
                   ),
                   backgroundColor: Colors.black87,
+                  customOnTap: (){
+                    context.go('/workout_home/workout_list/${WorkoutManager.currentWorkoutGroupIndex}');
+                  },
                   title: Text(
                     '운동 이어서 하기',
                     style: TextStyle(

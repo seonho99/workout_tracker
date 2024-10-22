@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:workout_tracker/my_router.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});
@@ -42,7 +44,9 @@ class LandingPage extends StatelessWidget {
                     ),
                     Container(
                       margin: EdgeInsets.all(30),
-                      child: ElevatedButton(onPressed: (){}, child: Text(
+                      child: ElevatedButton(onPressed: (){
+                        context.go('/workout_home');
+                      }, child: Text(
                         'Start',style: TextStyle(fontSize: 35),
                       ),),
                     ),
