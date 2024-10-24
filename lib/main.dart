@@ -1,12 +1,15 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:workout_tracker/landing_page.dart';
-import 'package:workout_tracker/workout_guide_page.dart';
-import 'package:workout_tracker/workout_home_page.dart';
-import 'package:workout_tracker/workout_list_page.dart';
+import 'package:workout_tracker/firebase_options.dart';
+import 'firebase_options.dart';
 
 import 'my_router.dart';
 
-void main(){
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
