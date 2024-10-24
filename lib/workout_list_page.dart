@@ -7,6 +7,7 @@ class WorkoutListPage extends StatelessWidget {
   int groupIndex;
   WorkoutListPage({super.key,required this.groupIndex}){
     WorkoutManager.currentWorkoutGroupIndex=groupIndex;
+    WorkoutManager.increaseMonthlyWorkoutCount();
   }
 
   final List<Workout> workouts = WorkoutManager.workouts;

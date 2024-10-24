@@ -13,6 +13,22 @@ class WorkoutHomePage extends StatefulWidget {
 }
 
 class _WorkoutHomePageState extends State<WorkoutHomePage> {
+  late Future<int> monthlyCountFuture;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    monthlyCountFuture=WorkoutManager.getMonthlyWorkoutCount();
+  }
+
+  @override
+  void didUpdateWidget(covariant WorkoutHomePage oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+    monthlyCountFuture=WorkoutManager.getMonthlyWorkoutCount();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,10 +91,23 @@ class _WorkoutHomePageState extends State<WorkoutHomePage> {
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
-                        info: Text(
-                          '12회',
-                          style: TextStyle(
-                              fontSize: 33, fontWeight: FontWeight.bold),
+                        info: FutureBuilder<int>(
+                          future: monthlyCountFuture,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return CircularProgressIndicator();
+                            } else if (snapshot.hasError) {
+                              return Text('Error: ${snapshot.error}');
+                            } else {
+                              final monthlyWorkoutCount = snapshot.data ?? 0;
+                              return Text(
+                                '$monthlyWorkoutCount회',
+                                style: TextStyle(
+                                    fontSize: 33, fontWeight: FontWeight.bold),
+                              );
+                            }
+                          },
                         ),
                       ),
                     ),
@@ -214,18 +243,18 @@ class _WorkoutHomePageState extends State<WorkoutHomePage> {
                                 children: [
                                   Flexible(
                                       child: Column(
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                              WorkoutManager.workoutGroups[1]
-                                                  .groupDescription,
-                                              style: TextStyle(
-                                                  fontSize: 23,
-                                                  color: Colors.white),
-                                            ),
-                                          ),
-                                        ],
-                                      )),
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          WorkoutManager.workoutGroups[1]
+                                              .groupDescription,
+                                          style: TextStyle(
+                                              fontSize: 23,
+                                              color: Colors.white),
+                                        ),
+                                      ),
+                                    ],
+                                  )),
                                   Expanded(
                                     child: Image.asset('assets/sample2.png'),
                                   ),

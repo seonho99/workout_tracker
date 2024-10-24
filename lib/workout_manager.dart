@@ -1,5 +1,5 @@
 import 'package:workout_tracker/workout_group.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'workout.dart';
 
 class WorkoutManager {
@@ -85,4 +85,16 @@ class WorkoutManager {
     ),
   ];
   static int? currentWorkoutGroupIndex;
+
+  static void increaseMonthlyWorkoutCount() async{
+    final SharedPreferencesAsync asyncPrefs = SharedPreferencesAsync();
+    int monthlyCount = await getMonthlyWorkoutCount();
+    await asyncPrefs.setInt('monthlyCount', ++monthlyCount);
+  }
+
+  static Future<int> getMonthlyWorkoutCount() async{
+    final SharedPreferencesAsync asyncPrefs = SharedPreferencesAsync();
+    int monthlyCount = await asyncPrefs.getInt('monthlyCount')??0;
+    return monthlyCount;
+  }
 }
