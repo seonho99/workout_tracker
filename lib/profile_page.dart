@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:workout_tracker/firebase_auth_service.dart';
+import 'package:workout_tracker/firebase_storage_service.dart';
 import 'package:workout_tracker/show_snackbar.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -10,11 +14,36 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final ImagePicker _picker = ImagePicker();
   final auth = FirebaseAuthService();
+  final storage = FirebaseStorageService();
   final _formKey = GlobalKey<FormState>();
   String? name;
   String? email;
   String? profileImageURL;
+  bool _isUploading = false;
+
+
+  Future<void> _pickImage() async {
+    setState(() {
+      _isUploading = true;
+    });
+
+    try {
+      final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
+        String? downloadURL = await storage.uploadProfileImage(
+            File(pickedFile.path), auth.user?.uid);
+      }
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+      setState(() {
+        profileImageURL = downloadURL;
+      });
+
+    
+  }
 
   @override
   void initState() {
@@ -41,13 +70,16 @@ class _ProfilePageState extends State<ProfilePage> {
               Flexible(
                 child: Stack(
                   children: [
-                    CircleAvatar(
-                      radius: 60,
-                      backgroundImage: profileImageURL != null
-                          ? NetworkImage(profileImageURL!)
-                          : const AssetImage('assets/me.jpg'),
-                      child:
-                          Icon(Icons.camera_alt, size: 30, color: Colors.white),
+                    GestureDetector(
+                      onTap: _pickImage,
+                      child: CircleAvatar(
+                        radius: 60,
+                        backgroundImage: profileImageURL != null
+                            ? NetworkImage(profileImageURL!)
+                            : const AssetImage('assets/me.jpg'),
+                        child:
+                            Icon(Icons.camera_alt, size: 30, color: Colors.white),
+                      ),
                     ),
                     Positioned(
                       bottom: 0,
