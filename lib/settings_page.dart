@@ -60,12 +60,14 @@ class SettingsPage extends StatelessWidget {
                       },
                     ),
                     ItemCard(
-                      title: '알림',
+                      title: 'Profile',
                       color: (brightness == Brightness.light)
                           ? Colors.white
                           : Theme.of(context).scaffoldBackgroundColor,
                       rightWidget: _arrow(),
-                      callback: () {},
+                      callback: () {
+                        context.go('/settings/profile');
+                      },
                     ),
                     SizedBox(height: 20),
                     Container(

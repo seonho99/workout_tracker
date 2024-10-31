@@ -24,9 +24,11 @@ class LoginPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              FractionallySizedBox(
-                child: Image.asset('assets/logo.png'),
-                widthFactor: 0.5,
+              Flexible(
+                child: FractionallySizedBox(
+                  child: Image.asset('assets/logo.png'),
+                  widthFactor: 0.5,
+                ),
               ),
               Flexible(
                 child: FittedBox(
@@ -130,7 +132,7 @@ class LoginPage extends StatelessWidget {
                     ),
                     onPressed: () {
                       context.go('/settings/login/registration');
-                    },
+                      },
                     child: Text('Sign up'),
                   ),
                 ],

@@ -35,6 +35,7 @@ class RegistrationPage extends StatelessWidget {
                       ),
                 ),
                 TextFormField(
+                  keyboardType: TextInputType.text,
                   decoration: InputDecoration(
                     labelText: '이름',
                     labelStyle: Theme.of(context).textTheme.headlineSmall,

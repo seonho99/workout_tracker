@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseAuthService {
   final FirebaseAuth _auth;
+  User? get user => _auth.currentUser;
+
   FirebaseAuthService() : _auth = FirebaseAuth.instance {
     _auth.setLanguageCode('kr');
   }
@@ -66,22 +68,22 @@ class FirebaseAuthService {
         default:
           errorMessage = error.message ?? '알 수 없는 오류가 발생했습니다.';
       }
-    } catch (error){
+    } catch (error) {
       errorMessage = '알 수 없는 오류가 발생했습니다.';
     }
-    if(errorMessage != null){
+    if (errorMessage != null) {
       throw Exception(errorMessage);
     }
   }
 
   Future<void> resetPassword({
     required String email,
-}) async { // 비밀번호 재설정 코드 작성
+  }) async {
     String? errorMessage;
     try {
       await _auth.sendPasswordResetEmail(email: email);
       print('비밀번호 재설정 이메일이 전송되었습니다.');
-    } on FirebaseAuthException catch (error){
+    } on FirebaseAuthException catch (error) {
       String? errorMessage;
 
       switch (error.code) {
@@ -107,16 +109,24 @@ class FirebaseAuthService {
     //로그아웃 코드 작성
     try {
       await _auth.signOut();
-    }catch(e){
+    } catch (e) {
       throw Exception(e.toString());
+    }
+  }
+
+  bool isLoggedIn() {
+    return _auth.currentUser != null;
+  }
+
+  Future<void> updateName(String? name) async {
+    try {
+      await _auth.currentUser?.updateDisplayName(name);
+    } catch (e) {
+      throw Exception('수정 실패:$e');
     }
   }
 
   Future<void> deleteAccount() async {
     //계정삭제 코드 작성
-  }
-
-  bool isLoggedIn(){
-    return _auth.currentUser != null;
   }
 }

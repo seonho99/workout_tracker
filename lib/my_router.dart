@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:workout_tracker/frame_page.dart';
 import 'package:workout_tracker/login_page.dart';
+import 'package:workout_tracker/profile_page.dart';
 import 'package:workout_tracker/registration_page.dart';
 import 'package:workout_tracker/reset_password_page.dart';
 import 'package:workout_tracker/settings_page.dart';
@@ -81,6 +82,11 @@ final GoRouter router = GoRouter(
               },
               routes: [
                 GoRoute(
+                    path: 'profile',
+                builder: (context, state){
+                  return ProfilePage();
+                },),
+                GoRoute(
                   path: 'login',
                   builder: (context, state) {
                     return LoginPage();
@@ -93,11 +99,11 @@ final GoRouter router = GoRouter(
                       },
                     ),
                     GoRoute(
-                      path: 'reset_password',
-                      builder: (context, state) {
-                        return ResetPasswordPage();
+                        path: 'reset_password',
+                      builder: (context, state){
+                          return ResetPasswordPage();
                       }
-                    )
+                    ),
                   ],
                 ),
               ],
@@ -109,13 +115,13 @@ final GoRouter router = GoRouter(
   ],
   redirect: (context, state){
     User? user = FirebaseAuth.instance.currentUser;
-    if ((user == null) &&
-    (state.uri.path != '/settings/login/reistration' &&
-    state.uri.path != '/settings/login/reset_password' &&
-    state.uri.path != '/')){
+    if((user == null ) &&
+        (state.uri.path != '/settings/login/registration' &&
+        state.uri.path != '/settings/login/reset_password' &&
+        state.uri.path != '/')){
       return '/settings/login';
     }
-    if(user !=null && (state.uri.path == '/settings/login' || state.uri.path == '/settings/login/registration')){
+    if(user != null && (state.uri.path == '/settings/login' || state.uri.path == '/settings/login/registration')){
       return '/settings';
     }
   }
