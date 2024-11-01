@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:workout_tracker/firebase_auth_service.dart';
 import 'package:workout_tracker/landing_page.dart';
 import 'package:workout_tracker/workout_manager.dart';
 import 'workout.dart';
@@ -13,6 +14,8 @@ class WorkoutHomePage extends StatefulWidget {
 }
 
 class _WorkoutHomePageState extends State<WorkoutHomePage> {
+  final FirebaseAuthService auth = FirebaseAuthService();
+  String? profileImageURL;
   late Future<int> monthlyCountFuture;
 
   @override
@@ -20,6 +23,7 @@ class _WorkoutHomePageState extends State<WorkoutHomePage> {
     // TODO: implement initState
     super.initState();
     monthlyCountFuture=WorkoutManager.getMonthlyWorkoutCount();
+    profileImageURL = auth.user?.photoURL;
   }
 
   @override
@@ -68,7 +72,11 @@ class _WorkoutHomePageState extends State<WorkoutHomePage> {
                         ),
                         shape: BoxShape.circle,
                         image:
-                            DecorationImage(image: AssetImage('assets/me.jpg')),
+                            DecorationImage(
+                                image: profileImageURL != null
+                                    ? NetworkImage(profileImageURL!)
+                                : AssetImage('assets/me.jpg'),
+                            fit: BoxFit.cover),
                       ),
                     )
                   ],

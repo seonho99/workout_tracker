@@ -126,7 +126,37 @@ class FirebaseAuthService {
     }
   }
 
-  Future<void> deleteAccount() async {
-    //계정삭제 코드 작성
+  Future<void> deleteAccount() async {//계정삭제 코드 작성
+    try {
+      await _auth.currentUser?.delete();
+    } catch (e) {
+      throw Exception('탈퇴과정에 문제가 있습니다. ${e.toString()}');
+    }
+  }
+
+  Future<void> updatePhotoUrl(String? url) async {
+    try {
+      await _auth.currentUser?.updatePhotoURL(url);
+    } catch (e){
+      throw Exception('수정 실패:$e');
+    }
+  }
+  Future<void> deletePhotoUrl() async {
+    try {
+      await _auth.currentUser?.updatePhotoURL(null);
+    } catch (e){
+      throw Exception('수정 실패:$e');
+    }
+  }
+  Future<void> sendVerificationEmail() async {
+    try {
+      if (!(_auth.currentUser?.emailVerified??true)) {
+        await _auth.currentUser?.sendEmailVerification();
+      } else {
+        throw Exception('이미 이메일 인증이 완료되었습니다.');
+      }
+    } catch (e) {
+      throw Exception('인증 메일 전송에 실패했습니다.');
+    }
   }
 }

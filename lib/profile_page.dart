@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:workout_tracker/firebase_auth_service.dart';
 import 'package:workout_tracker/firebase_storage_service.dart';
+import 'package:workout_tracker/frame_page.dart';
 import 'package:workout_tracker/show_snackbar.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -23,26 +25,29 @@ class _ProfilePageState extends State<ProfilePage> {
   String? profileImageURL;
   bool _isUploading = false;
 
-
   Future<void> _pickImage() async {
     setState(() {
       _isUploading = true;
     });
 
-    try {
-      final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-      if (pickedFile != null) {
-        String? downloadURL = await storage.uploadProfileImage(
-            File(pickedFile.path), auth.user?.uid);
-      }
-    } catch (e) {
-      showSnackBar(context, e.toString());
-    }
+    try{
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      String? downloadURL = await storage.uploadProfileImage(
+          File(pickedFile.path), auth.user?.uid);
+
+      await auth.updatePhotoUrl(downloadURL);
+
       setState(() {
         profileImageURL = downloadURL;
       });
-
-    
+    }
+  } catch(e) {
+      showSnackBar(context, e.toString());
+    }
+    setState(() {
+      _isUploading = false;
+    });
   }
 
   @override
@@ -78,7 +83,9 @@ class _ProfilePageState extends State<ProfilePage> {
                             ? NetworkImage(profileImageURL!)
                             : const AssetImage('assets/me.jpg'),
                         child:
-                            Icon(Icons.camera_alt, size: 30, color: Colors.white),
+                            _isUploading
+                          ? CircularProgressIndicator()
+                            : Icon(Icons.camera_alt, size: 30, color: Colors.white),
                       ),
                     ),
                     Positioned(
@@ -98,7 +105,17 @@ class _ProfilePageState extends State<ProfilePage> {
                               Icons.close,
                               color: Colors.white,
                             ),
-                            onPressed: () {},
+                            onPressed: () async{
+                              try {
+                                await auth.deletePhotoUrl();
+                                await storage.deleteProfileImage(auth.user?.uid);
+                              } catch(e){
+                                showSnackBar(context, e.toString());
+                              }
+                              setState(() {
+                                profileImageURL = null;
+                              });
+                            },
                           ),
                         ),
                       ),
@@ -139,7 +156,18 @@ class _ProfilePageState extends State<ProfilePage> {
                 children: [
                   Text('이메일 인증을 안하셨나요?'),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if(auth.user?.emailVerified??false){
+                        showSnackBar(context, '이미 인증된 사용자입니다.');
+                        return;
+                      }
+                      try {
+                        auth.sendVerificationEmail();
+                        showSnackBar(context, '인증 이메일이 다시 전송되었습니다.');
+                      } catch (e){
+                        showSnackBar(context, e.toString());
+                      }
+                    },
                     child: Text(
                       'Send Email',
                       style: TextStyle(
@@ -181,7 +209,14 @@ class _ProfilePageState extends State<ProfilePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      try {
+                        await auth.signOut();
+                        context.go('settings/login');
+                      } catch (e){
+                        showSnackBar(context, e.toString());
+                      }
+                    },
                     child: Text(
                       '로그아웃',
                       style: TextStyle(
@@ -190,7 +225,15 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   Text('|'),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      try {
+                        await auth.deleteAccount();
+                        showSnackBar(context, '탈퇴처리가 완료되었습니다.');
+                        context.go('settings/login');
+                      } catch (e) {
+                        showSnackBar(context, e.toString());
+                      }
+                    },
                     child: Text(
                       '회원탈퇴',
                       style: TextStyle(
