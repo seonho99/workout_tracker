@@ -75,8 +75,7 @@ class _WorkoutHomePageState extends State<WorkoutHomePage> {
                             DecorationImage(
                                 image: profileImageURL != null
                                     ? NetworkImage(profileImageURL!)
-                                : AssetImage('assets/me.jpg'),
-                            fit: BoxFit.cover),
+                                : AssetImage('assets/me.jpg'), fit: BoxFit.cover),
                       ),
                     )
                   ],
