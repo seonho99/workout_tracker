@@ -41,7 +41,7 @@ class DashboardCard extends StatelessWidget {
               ],
             ),
             Expanded(
-              child: Center(child: info), // info를 그대로 사용
+              child: Center(child: info),
             ),
           ],
         ),

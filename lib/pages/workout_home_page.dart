@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:workout_tracker/firebase_auth_service.dart';
-import 'package:workout_tracker/landing_page.dart';
-import 'package:workout_tracker/workout_manager.dart';
-import 'workout.dart';
-import 'dashboard_card.dart';
+import 'package:workout_tracker/data/services/firebase_auth_service.dart';
+import 'package:workout_tracker/pages/landing_page.dart';
+import 'package:workout_tracker/data/workout_manager.dart';
+import '../data/workout.dart';
+import '../widgets/dashboard_card.dart';
 
 class WorkoutHomePage extends StatefulWidget {
   const WorkoutHomePage({super.key});
@@ -22,7 +22,7 @@ class _WorkoutHomePageState extends State<WorkoutHomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    monthlyCountFuture=WorkoutManager.getMonthlyWorkoutCount();
+    monthlyCountFuture = WorkoutManager.getMonthlyWorkoutCount();
     profileImageURL = auth.user?.photoURL;
   }
 
@@ -30,7 +30,7 @@ class _WorkoutHomePageState extends State<WorkoutHomePage> {
   void didUpdateWidget(covariant WorkoutHomePage oldWidget) {
     // TODO: implement didUpdateWidget
     super.didUpdateWidget(oldWidget);
-    monthlyCountFuture=WorkoutManager.getMonthlyWorkoutCount();
+    monthlyCountFuture = WorkoutManager.getMonthlyWorkoutCount();
   }
 
   @override
@@ -71,10 +71,9 @@ class _WorkoutHomePageState extends State<WorkoutHomePage> {
                           color: Colors.orange,
                         ),
                         shape: BoxShape.circle,
-                        image:
-                            DecorationImage(
-                                image: profileImageURL != null
-                                    ? NetworkImage(profileImageURL!)
+                        image: DecorationImage(
+                            image: profileImageURL != null
+                                ? NetworkImage(profileImageURL!)
                                 : AssetImage('assets/me.jpg'),
                             fit: BoxFit.cover),
                       ),
@@ -165,6 +164,31 @@ class _WorkoutHomePageState extends State<WorkoutHomePage> {
                       ),
                     ),
                   ],
+                ),
+              ),
+              Expanded(
+                flex: 3,
+                child: DashboardCard(
+                  icon: Icon(
+                    Icons.surfing_outlined,
+                    size: 33,
+                    color: Colors.white,
+                  ),
+                  title: Text(
+                    '나만의 운동',
+                    style: TextStyle(
+                        fontSize: 23,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
+                  ),
+                  info: Text(
+                    '자신의 운동을 설계하세요.',
+                    style: TextStyle(fontSize: 23, color: Colors.white),
+                  ),
+                  backgroundColor: Color(0xffD2A74A),
+                  customOnTap: (){
+                    context.go('/workout_home/my_workout_list');
+                  },
                 ),
               ),
               Expanded(

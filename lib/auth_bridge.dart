@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:flutter/material.dart';
-import 'package:workout_tracker/workout_home_page.dart';
+import 'package:workout_tracker/pages/workout_home_page.dart';
 
 class AuthBridge extends StatelessWidget {
   const AuthBridge({super.key});

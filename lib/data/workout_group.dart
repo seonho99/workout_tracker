@@ -1,4 +1,4 @@
-import 'package:workout_tracker/workout.dart';
+import 'package:workout_tracker/data/workout.dart';
 
 class WorkoutGroup {
   String groupDescription;
