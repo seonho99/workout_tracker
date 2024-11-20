@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:workout_tracker/data/provider/workout_provider.dart';
 
-import '../data/workout.dart';
+import '../../data/workout.dart';
 
 class AddWorkoutDialog extends StatelessWidget {
-  final Function(Workout?) addWorkoutCallback;
-  AddWorkoutDialog({super.key,required this.addWorkoutCallback});
+
+  AddWorkoutDialog({super.key});
+
   String? newWorkoutTitle;
   String? newWorkoutImageUrl;
   String? newWorkoutAudioUrl;
@@ -122,14 +125,22 @@ class AddWorkoutDialog extends StatelessWidget {
             width: double.infinity,
             child: TextButton(
               onPressed: () {
-               addWorkoutCallback(
-                 Workout(
-                     name: newWorkoutTitle ?? 'noName',
-                     minutes: newWorkoutMinutes,
-                     imageName: newWorkoutImageUrl ?? '',
-                     audioName: newWorkoutAudioUrl ?? '',
-                     kcal: newWorkoutKcal),
-               );
+                // addWorkoutCallback(
+                //   Workout(
+                //       name: newWorkoutTitle ?? 'noName',
+                //       minutes: newWorkoutMinutes,
+                //       imageName: newWorkoutImageUrl ?? '',
+                //       audioName: newWorkoutAudioUrl ?? '',
+                //       kcal: newWorkoutKcal),
+                // );
+                Provider.of<WorkoutProvider>(context, listen: false).addWorkout(
+                  Workout(
+                      name: newWorkoutTitle ?? 'noName',
+                      minutes: newWorkoutMinutes,
+                      imageName: newWorkoutImageUrl ?? '',
+                      audioName: newWorkoutAudioUrl ?? '',
+                      kcal: newWorkoutKcal),
+                );
                 Navigator.pop(context);
               },
               child: Text(

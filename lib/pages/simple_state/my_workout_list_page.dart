@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:workout_tracker/data/days_of_week.dart';
 import 'package:workout_tracker/data/workout_manager.dart';
-import 'package:workout_tracker/pages/add_workout_dialog.dart';
-import 'package:workout_tracker/widgets/workout_tile.dart';
-import '../data/workout.dart';
+import 'package:workout_tracker/pages/simple_state/add_workout_dialog.dart';
+import 'package:workout_tracker/pages/simple_state/workout_tile.dart';
+import '../../data/workout.dart';
 
 class MyWorkoutListPage extends StatefulWidget {
   MyWorkoutListPage({super.key}) {

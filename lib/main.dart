@@ -1,11 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:workout_tracker/data/provider/workout_provider.dart';
 import 'package:workout_tracker/firebase_options.dart';
 import 'firebase_options.dart';
 
 import 'my_router.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -18,10 +20,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Workout Tracker',
-      routerConfig: router,
-      // home: WorkoutHomePage(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => WorkoutProvider()),
+      ],
+      child: MaterialApp.router(
+        title: 'Workout Tracker',
+        routerConfig: router,
+        // home: WorkoutHomePage(),
+      ),
     );
   }
 }
