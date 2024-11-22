@@ -16,15 +16,16 @@ final class AddWorkout extends WorkoutEvent {
 
 final class UpdateWorkout extends WorkoutEvent {
   final int workoutIndex;
-  final DaysOfWeek selectDay;
-  final Set<DaysOfWeek>? weekoutDays;
+  final DaysOfWeek selectedDay;
+  final Set<DaysOfWeek>? workoutDays;
 
   UpdateWorkout(
-      {required this.workoutIndex, required this.selectDay, this.weekoutDays});
+      {required this.workoutIndex, required this.selectedDay, this.workoutDays});
 }
 
 final class DeleteWorkout extends WorkoutEvent {
   final int workoutIndex;
 
   DeleteWorkout(this.workoutIndex);
+
 }

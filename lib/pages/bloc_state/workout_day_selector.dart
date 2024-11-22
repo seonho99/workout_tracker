@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:workout_tracker/data/days_of_week.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:workout_tracker/data/bloc/workout_bloc/workout_event.dart';
+
+import '../../data/bloc/workout_bloc/workout_bloc.dart';
+import '../../data/days_of_week.dart';
 
 class WorkoutDaySelector extends StatefulWidget {
-  final Function(List<bool>) updateWorkoutDays;
-  final Set<DaysOfWeek> workoutDays;
-  const WorkoutDaySelector({super.key,required this.updateWorkoutDays, required this.workoutDays});
+  final int workoutIndex;
+
+  const WorkoutDaySelector({super.key, required this.workoutIndex});
 
   @override
   State<WorkoutDaySelector> createState() => _WorkoutDaySelectorState();
@@ -16,24 +20,23 @@ class _WorkoutDaySelectorState extends State<WorkoutDaySelector> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    isSelected = changeWorkoutDaysToIsSelected();
+    isSelected = context.read<WorkoutBloc>().changeWorkoutDaysToIsSelected(
+      context.read<WorkoutBloc>().state.workouts[widget.workoutIndex].workoutDays
+    );
   }
 
   void updateIsSelected(int index){
     isSelected[index] = !isSelected[index];
-    widget.updateWorkoutDays(isSelected);
-  }
 
-  List<bool> changeWorkoutDaysToIsSelected(){
-    List<bool> isSelected = List.filled(7, false);
-    for(var week in widget.workoutDays){
-      isSelected[week.index] = true;
-    }
-    return isSelected;
+    context.read<WorkoutBloc>().add(
+      UpdateWorkout(
+        selectedDay: DaysOfWeek.fromIndex(index),
+          workoutIndex: widget.workoutIndex,
+          workoutDays: context.read<WorkoutBloc>().state.workouts[widget.workoutIndex].workoutDays,
+      ),
+    );
   }
-
 
 
   @override

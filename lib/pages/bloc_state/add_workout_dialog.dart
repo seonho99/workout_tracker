@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../data/bloc/workout_bloc/workout_bloc.dart';
+import '../../data/bloc/workout_bloc/workout_event.dart';
 import '../../data/workout.dart';
 
+
 class AddWorkoutDialog extends StatelessWidget {
-  final Function(Workout?) addWorkoutCallback;
-  AddWorkoutDialog({super.key,required this.addWorkoutCallback});
+  AddWorkoutDialog({super.key});
+
   String? newWorkoutTitle;
   String? newWorkoutImageUrl;
   String? newWorkoutAudioUrl;
@@ -25,7 +29,9 @@ class AddWorkoutDialog extends StatelessWidget {
               child: Text(
                 '운동 추가',
                 style: TextStyle(
-                    color: Theme.of(context).primaryColor,
+                    color: Theme
+                        .of(context)
+                        .primaryColor,
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
@@ -116,20 +122,34 @@ class AddWorkoutDialog extends StatelessWidget {
                 bottomRight: Radius.circular(20),
                 bottomLeft: Radius.circular(20),
               ),
-              color: Theme.of(context).primaryColor,
+              color: Theme
+                  .of(context)
+                  .primaryColor,
             ),
             height: 50,
             width: double.infinity,
             child: TextButton(
               onPressed: () {
-               addWorkoutCallback(
-                 Workout(
-                     name: newWorkoutTitle ?? 'noName',
-                     minutes: newWorkoutMinutes,
-                     imageName: newWorkoutImageUrl ?? '',
-                     audioName: newWorkoutAudioUrl ?? '',
-                     kcal: newWorkoutKcal),
-               );
+                // addWorkoutCallback(
+                //   Workout(
+                //       name: newWorkoutTitle ?? 'noName',
+                //       minutes: newWorkoutMinutes,
+                //       imageName: newWorkoutImageUrl ?? '',
+                //       audioName: newWorkoutAudioUrl ?? '',
+                //       kcal: newWorkoutKcal),
+                // );
+
+                context.read<WorkoutBloc>().add(
+                  AddWorkout(
+                    Workout(
+                      name: newWorkoutTitle ?? 'noName',
+                      minutes: newWorkoutMinutes,
+                      imageName: newWorkoutImageUrl ?? '',
+                      audioName: newWorkoutAudioUrl ?? '',
+                      kcal: newWorkoutKcal,
+                    ),
+                  ),
+                );
                 Navigator.pop(context);
               },
               child: Text(
