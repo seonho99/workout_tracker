@@ -2,9 +2,11 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import '../days_of_week.dart';
+import '../services/firestore_service.dart';
 import '../workout.dart';
 
 class WorkoutProvider extends ChangeNotifier{
+  final _firestoreService = FirestoreService();
   final List<Workout> _workouts = [
     Workout(
         name: '바벨 활용 종아리 운동',
@@ -24,7 +26,9 @@ class WorkoutProvider extends ChangeNotifier{
         workoutDays: {DaysOfWeek.fri, DaysOfWeek.sat}),
   ];
 
-  void addWorkout(Workout workout){
+  Future<void> addWorkout(Workout workout) async{
+
+    await _firestoreService.createWorkout(workout);
     _workouts.add(workout);
     notifyListeners();
   }

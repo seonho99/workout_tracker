@@ -24,24 +24,33 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiRepositoryProvider(
+    return MultiProvider(
         providers: [
-        RepositoryProvider<WorkoutRepository>(
-    create: (context) => WorkoutRepository(FakeDb()),
-    ),
+          ChangeNotifierProvider(create: (_)=> WorkoutProvider()),
         ],
-      child: MultiBlocProvider(
-      providers: [
-        BlocProvider<WorkoutBloc>(
-            create: (context) => WorkoutBloc(context.read<WorkoutRepository>()),
-        ),
-      ],
       child: MaterialApp.router(
-        title: 'Workout Tracker',
         routerConfig: router,
-      ),
-        // home: WorkoutHomePage(),
+        title: 'Workout Tracker',
       ),
     );
+    // MultiRepositoryProvider(
+    //     providers: [
+    //     RepositoryProvider<WorkoutRepository>(
+    // create: (context) => WorkoutRepository(FakeDb()),
+    // ),
+    //     ],
+    //   child: MultiBlocProvider(
+    //   providers: [
+    //     BlocProvider<WorkoutBloc>(
+    //         create: (context) => WorkoutBloc(context.read<WorkoutRepository>()),
+    //     ),
+    //   ],
+    //   child: MaterialApp.router(
+    //     title: 'Workout Tracker',
+    //     routerConfig: router,
+    //   ),
+    //     // home: WorkoutHomePage(),
+    //   ),
+    // );
   }
 }
