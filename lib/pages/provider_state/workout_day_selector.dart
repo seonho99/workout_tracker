@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_tracker/data/days_of_week.dart';
 import 'package:workout_tracker/data/provider/workout_provider.dart';
-import 'package:workout_tracker/main.dart';
+import 'package:workout_tracker/show_snackbar.dart';
 
 class WorkoutDaySelector extends StatefulWidget {
   final int workoutIndex;
@@ -33,6 +33,7 @@ class _WorkoutDaySelectorState extends State<WorkoutDaySelector> {
 
   void updateIsSelected(int index) {
     isSelected[index] = !isSelected[index];
+
     Provider.of<WorkoutProvider>(
       context,
       listen: false,
@@ -43,7 +44,9 @@ class _WorkoutDaySelectorState extends State<WorkoutDaySelector> {
           context,
           listen: false,
       ).workouts[widget.workoutIndex].workoutDays,
-    );
+    ).catchError((e){
+      showSnackBar(context, e.toString());
+    });
   }
 
   @override
@@ -54,8 +57,8 @@ class _WorkoutDaySelectorState extends State<WorkoutDaySelector> {
           updateIsSelected(index);
         });
       },
-      children: [for (var item in DaysOfWeek.values) Text(item.kor)],
       isSelected: isSelected,
+      children: [for (var item in DaysOfWeek.values) Text(item.kor)],
     );
   }
 }

@@ -9,6 +9,8 @@ class SettingsPage extends StatelessWidget {
   static String id = 'settings_page';
   final auth = FirebaseAuthService();
 
+  SettingsPage({super.key});
+
   Widget _arrow() {
     return Icon(
       Icons.arrow_forward_ios,

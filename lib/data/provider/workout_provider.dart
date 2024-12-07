@@ -1,71 +1,72 @@
 import 'dart:collection';
-
 import 'package:flutter/material.dart';
+import 'package:workout_tracker/data/services/firebase_auth_service.dart';
 import '../days_of_week.dart';
 import '../services/firestore_service.dart';
 import '../workout.dart';
 
-class WorkoutProvider extends ChangeNotifier{
+class WorkoutProvider extends ChangeNotifier {
   final _firestoreService = FirestoreService();
-  final List<Workout> _workouts = [
-    Workout(
-        name: '바벨 활용 종아리 운동',
-        minutes: 15,
-        imageName:
-        'https://firebasestorage.googleapis.com/v0/b/workout-tracker-a368c.appspot.com/o/workout_images%2F04171301-Dumbbell-Standing-Calf-Raise_Calf_360%20Small.jpeg?alt=media&token=656116ab-11ef-414c-8049-03d586098ad7',
-        audioName: 'https://firebasestorage.googleapis.com/v0/b/workout-tracker-a368c.appspot.com/o/workout_images%2F01111301-Barbell-Standing-Rocking-Leg-Calf-Raise_Calf_360%20Small.jpeg?alt=media&token=9ae6215b-ecf6-474b-a494-11270d02b836',
-        kcal: 320,
-        workoutDays: {DaysOfWeek.mon, DaysOfWeek.wed}),
-    Workout(
-        name: '덤벨 활용 앉아서 종아리 운동',
-        minutes: 4,
-        imageName:
-        'https://firebasestorage.googleapis.com/v0/b/workout-tracker-a368c.appspot.com/o/workout_images%2F01111301-Barbell-Standing-Rocking-Leg-Calf-Raise_Calf_360%20Small.jpeg?alt=media&token=9ae6215b-ecf6-474b-a494-11270d02b836',
-        audioName: 'https://firebasestorage.googleapis.com/v0/b/workout-tracker-a368c.appspot.com/o/workout_mpp3%2FQuartz.mp3?alt=media&token=02eca3a2-7829-41dd-a004-c8bfce934199',
-        kcal: 110,
-        workoutDays: {DaysOfWeek.fri, DaysOfWeek.sat}),
-  ];
+  final FirebaseAuthService auth = FirebaseAuthService();
 
-  Future<void> addWorkout(Workout workout) async{
+  final List<Workout> _workouts = [];
 
-    await _firestoreService.createWorkout(workout);
-    _workouts.add(workout);
+  Future<void> addWorkout(Workout workout) async {
+    workout.uid = auth.user?.uid;
+
+    try {
+      await _firestoreService.createWorkout(workout);
+      _workouts.add(workout);
+    } catch (e) {
+      rethrow;
+    }
     notifyListeners();
   }
 
-  void deleteWorkout(int deleteIndex){
+  Future<void> deleteWorkout(int deleteIndex) async {
+    if (_workouts[deleteIndex].id == null) throw Exception('삭제할 수 없습니다.');
+    await _firestoreService.deleteWorkout(_workouts[deleteIndex].id!);
     _workouts.removeAt(deleteIndex);
     notifyListeners();
   }
 
   List<Workout> get workouts {
-   return UnmodifiableListView(_workouts);
+    return UnmodifiableListView(_workouts);
   }
 
-  List<bool> changeWorkoutDaysToIsSelected(Set<DaysOfWeek>? workoutDays){
+  List<bool> changeWorkoutDaysToIsSelected(Set<DaysOfWeek>? workoutDays) {
     List<bool> isSelected = List.filled(7, false);
 
-    if(workoutDays== null){
+    if (workoutDays == null) {
       return isSelected;
     }
-    for (var week in workoutDays){
+    for (var week in workoutDays) {
       isSelected[week.index] = true;
     }
     return isSelected;
   }
 
-  void updateWorkoutDays({
+  Future<void> updateWorkoutDays({
     required DaysOfWeek selectedDay,
     required int workoutIndex,
     Set<DaysOfWeek>? workoutDays,
-}){
+  }) async {
     Set<DaysOfWeek> workoutDaysLocal = workoutDays ?? {};
-    if(workoutDaysLocal.contains(selectedDay)){
+    if (workoutDaysLocal.contains(selectedDay)) {
       workoutDaysLocal.remove(selectedDay);
-    }else{
+    } else {
       workoutDaysLocal.add(selectedDay);
     }
     _workouts[workoutIndex].workoutDays = workoutDaysLocal;
+    await _firestoreService.updateWorkout(_workouts[workoutIndex]);
+    notifyListeners();
+  }
+
+  Future<void> fetchAllWorkouts() async {
+    if (auth.user == null) return;
+    final List<Workout> fetchedWorkouts =
+        await _firestoreService.fetchAllWorkouts(uid: auth.user!.uid);
+    _workouts.addAll(fetchedWorkouts);
     notifyListeners();
   }
 }

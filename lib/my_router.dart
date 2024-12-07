@@ -133,4 +133,5 @@ final GoRouter router = GoRouter(
               state.uri.path == '/settings/login/registration')) {
         return '/settings';
       }
+      return null;
     });

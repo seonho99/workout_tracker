@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class ItemCard extends StatelessWidget {
 
-  ItemCard({required this.title, required this.color, this.rightWidget, required this.callback, this.textColor});
+  ItemCard({super.key, required this.title, required this.color, this.rightWidget, required this.callback, this.textColor});
 
   final Color color;
   final Color? textColor;
@@ -14,6 +14,7 @@ class ItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return GestureDetector(
+      onTap: callback,
       child: Container(
         height: 60,
         color: color,
@@ -40,7 +41,6 @@ class ItemCard extends StatelessWidget {
           ],
         ),
       ),
-      onTap: callback,
     );
   }
 }

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:workout_tracker/data/services/firebase_auth_service.dart';
-import 'package:workout_tracker/pages/landing_page.dart';
 import 'package:workout_tracker/data/workout_manager.dart';
-import '../data/workout.dart';
 import '../widgets/dashboard_card.dart';
 
 class WorkoutHomePage extends StatefulWidget {

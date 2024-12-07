@@ -5,11 +5,11 @@ class AnimatedIconWidget extends StatefulWidget {
   final double size;
   final Color color;
   const AnimatedIconWidget({
-    Key? key,
+    super.key,
     required this.icon,
     required this.size,
     required this.color,
-  }) : super(key: key);
+  });
 
   @override
   State<AnimatedIconWidget> createState() => _AnimatedIconWidgetState();

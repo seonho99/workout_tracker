@@ -6,7 +6,6 @@ import 'package:workout_tracker/data/workout.dart';
 import 'package:workout_tracker/pages/bloc_state/add_workout_dialog.dart';
 import 'package:workout_tracker/pages/bloc_state/workout_tile.dart';
 import '../../data/bloc/workout_bloc/workout_state.dart';
-import '../../data/days_of_week.dart';
 import '../../data/workout_manager.dart';
 
 class MyWorkoutListPage extends StatefulWidget {

@@ -39,7 +39,7 @@ class WorkoutTile extends StatelessWidget {
                   shape: BoxShape.circle,
                   color: Colors.yellow,
                   image: DecorationImage(
-                    image: NetworkImage('$image'),
+                    image: NetworkImage(image),
                   ),
                 ),
               ),

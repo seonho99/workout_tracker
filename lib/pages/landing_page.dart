@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:workout_tracker/my_router.dart';
 
 class LandingPage extends StatelessWidget {
   const LandingPage({super.key});

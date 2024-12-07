@@ -47,8 +47,8 @@ class _WorkoutDaySelectorState extends State<WorkoutDaySelector> {
           updateIsSelected(index);
         });
       },
-      children: [for (var item in DaysOfWeek.values) Text(item.kor)],
       isSelected: isSelected,
+      children: [for (var item in DaysOfWeek.values) Text(item.kor)],
     );
   }
 }

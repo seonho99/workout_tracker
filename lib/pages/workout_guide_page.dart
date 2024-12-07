@@ -44,7 +44,7 @@ class _WorkoutGuidePageState extends State<WorkoutGuidePage> {
     } else {
       return IconButton(
         onPressed: () async {
-          await player.play(AssetSource('${currentWorkout.audioName}'));
+          await player.play(AssetSource(currentWorkout.audioName));
           setState(() {});
         },
         icon: Icon(Icons.play_circle_fill),
@@ -88,7 +88,7 @@ class _WorkoutGuidePageState extends State<WorkoutGuidePage> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Text(
-            '${currentWorkout.name}',
+            currentWorkout.name,
             style: TextStyle(fontSize: 35),
           ),
           Row(

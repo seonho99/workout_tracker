@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:workout_tracker/data/provider/workout_provider.dart';
+import 'package:workout_tracker/show_snackbar.dart';
 
 import '../../data/workout.dart';
 
@@ -125,22 +126,19 @@ class AddWorkoutDialog extends StatelessWidget {
             width: double.infinity,
             child: TextButton(
               onPressed: () {
-                // addWorkoutCallback(
-                //   Workout(
-                //       name: newWorkoutTitle ?? 'noName',
-                //       minutes: newWorkoutMinutes,
-                //       imageName: newWorkoutImageUrl ?? '',
-                //       audioName: newWorkoutAudioUrl ?? '',
-                //       kcal: newWorkoutKcal),
-                // );
-                Provider.of<WorkoutProvider>(context, listen: false).addWorkout(
-                  Workout(
-                      name: newWorkoutTitle ?? 'noName',
-                      minutes: newWorkoutMinutes,
-                      imageName: newWorkoutImageUrl ?? '',
-                      audioName: newWorkoutAudioUrl ?? '',
-                      kcal: newWorkoutKcal),
-                );
+                try {
+                  Provider.of<WorkoutProvider>(context, listen: false).addWorkout(
+                    Workout(
+                        name: newWorkoutTitle ?? 'noName',
+                        minutes: newWorkoutMinutes,
+                        imageName: newWorkoutImageUrl ?? '',
+                        audioName: newWorkoutAudioUrl ?? '',
+                        kcal: newWorkoutKcal,
+                    ),
+                  );
+                } catch (e){
+                  showSnackBar(context, e.toString());
+                }
                 Navigator.pop(context);
               },
               child: Text(
